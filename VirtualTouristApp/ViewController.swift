@@ -14,16 +14,30 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     var initialLatitude : Double = 4.624335
     var initialLongitude : Double = -74.063644
+    var annotations = [MKPointAnnotation]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap))
         mapView.delegate = self
-        showMapAnnotations()
+        mapView.addGestureRecognizer(longTapGesture)
+       // showMapAnnotations()
     }
     
+    @objc func longTap (sender: UIGestureRecognizer) {
+        if sender.state == .began {
+            let touchPoint = sender.location(in: self.mapView)
+            let touchMapCoordinate = self.mapView.convert(touchPoint, toCoordinateFrom: mapView)
+            let annotation2 = MKPointAnnotation()
+            annotation2.coordinate = touchMapCoordinate
+            annotation2.subtitle = "Long: " + String(touchMapCoordinate.longitude)
+            annotation2.title = "Lat: " + String( touchMapCoordinate.latitude)
+            annotations.append(annotation2)
+            self.mapView.addAnnotations(annotations)
+        }
+    }
     
-    func showMapAnnotations () {
-        var annotations = [MKPointAnnotation]()
+   func showMapAnnotations () {
         let latitude = CLLocationDegrees(initialLatitude)
         let longitude = CLLocationDegrees(initialLongitude)
         let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -60,7 +74,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
             }
         }
     }
-    
     func verifyUrl(urlString: String?) -> Bool {
         guard let urlString = urlString,
               let url = URL(string: urlString) else {
@@ -69,8 +82,5 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
         return UIApplication.shared.canOpenURL(url)
     }
-
-
-    
 }
 
