@@ -12,6 +12,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     
+    
+    
     var initialLatitude : Double = 4.624335
     var initialLongitude : Double = -74.063644
     var annotations = [MKPointAnnotation]()
