@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 extension UIViewController {
     func buttonEnabled(_ enabled: Bool, button: UIButton) {
@@ -35,11 +36,19 @@ extension UIViewController {
         }
 }
     
-    func showFailure(message: String) {
+    func showFailure(title: String, message: String) {
         let alert = UIAlertController(title: "ALERT", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
         NSLog("The \"OK\" alert occured.")
         }))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func zoomInMap(mapView: MKMapView, coordinate: CLLocationCoordinate2D) {
+        DispatchQueue.main.async {
+            let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+            let region = MKCoordinateRegion(center: coordinate, span: span)
+            mapView.setRegion(region, animated: true)
+        }
     }
 }

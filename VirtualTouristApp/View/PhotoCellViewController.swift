@@ -13,4 +13,13 @@ class PhotoCellViewController: UICollectionViewCell {
     @IBOutlet weak var imageCell: UIImageView!
     @IBOutlet weak var activityIndicatorCell: UIActivityIndicatorView!
     
+    var id: UUID? = nil
+    
+    func configure() {
+        self.imageCell.image = nil
+        self.imageCell.contentMode = .scaleAspectFill
+        self.activityIndicatorCell.hidesWhenStopped = true
+        //self.couldntLoadImageLabel.isHidden = true
+    }
+    
 }

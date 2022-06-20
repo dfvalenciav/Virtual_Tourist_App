@@ -13,6 +13,9 @@
 		1419D25C28563C7300B9CA0C /* FlickrResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1419D25B28563C7300B9CA0C /* FlickrResponse.swift */; };
 		1463DA572853AE3C00A86DC4 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1463DA562853AE3C00A86DC4 /* UIViewController.swift */; };
 		1463DA5928540D7700A86DC4 /* dataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1463DA5828540D7700A86DC4 /* dataController.swift */; };
+		146CE7482860CA5200789A1A /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146CE7472860CA5200789A1A /* Pin.swift */; };
+		146CE74A2860CB5700789A1A /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146CE7492860CB5700789A1A /* Photo.swift */; };
+		146CE74C2860D8AE00789A1A /* MkCoordinateLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146CE74B2860D8AE00789A1A /* MkCoordinateLocation.swift */; };
 		146E63DC28503346000FCE92 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E63DB28503346000FCE92 /* AppDelegate.swift */; };
 		146E63DE28503346000FCE92 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E63DD28503346000FCE92 /* SceneDelegate.swift */; };
 		146E63E028503346000FCE92 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E63DF28503346000FCE92 /* MapViewController.swift */; };
@@ -30,6 +33,9 @@
 		1419D25B28563C7300B9CA0C /* FlickrResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrResponse.swift; sourceTree = "<group>"; };
 		1463DA562853AE3C00A86DC4 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		1463DA5828540D7700A86DC4 /* dataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataController.swift; sourceTree = "<group>"; };
+		146CE7472860CA5200789A1A /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
+		146CE7492860CB5700789A1A /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		146CE74B2860D8AE00789A1A /* MkCoordinateLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MkCoordinateLocation.swift; sourceTree = "<group>"; };
 		146E63D828503346000FCE92 /* VirtualTouristApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTouristApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		146E63DB28503346000FCE92 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		146E63DD28503346000FCE92 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,8 +64,18 @@
 			children = (
 				1419D25928563C5300B9CA0C /* FlickrClient.swift */,
 				1419D25B28563C7300B9CA0C /* FlickrResponse.swift */,
+				146CE74B2860D8AE00789A1A /* MkCoordinateLocation.swift */,
 			);
 			path = FlickrResponse;
+			sourceTree = "<group>";
+		};
+		146CE7462860CA3900789A1A /* CoreDataClasses */ = {
+			isa = PBXGroup;
+			children = (
+				146CE7472860CA5200789A1A /* Pin.swift */,
+				146CE7492860CB5700789A1A /* Photo.swift */,
+			);
+			path = CoreDataClasses;
 			sourceTree = "<group>";
 		};
 		146E63CF28503346000FCE92 = {
@@ -95,6 +111,7 @@
 		146E63F22850386B000FCE92 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				146CE7462860CA3900789A1A /* CoreDataClasses */,
 				1419D25828563C3A00B9CA0C /* FlickrResponse */,
 				146E63E428503346000FCE92 /* VirtualTouristApp.xcdatamodeld */,
 				1463DA5828540D7700A86DC4 /* dataController.swift */,
@@ -203,7 +220,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				146CE74A2860CB5700789A1A /* Photo.swift in Sources */,
 				146E63E628503346000FCE92 /* VirtualTouristApp.xcdatamodeld in Sources */,
+				146CE7482860CA5200789A1A /* Pin.swift in Sources */,
+				146CE74C2860D8AE00789A1A /* MkCoordinateLocation.swift in Sources */,
 				1419D25428562E1000B9CA0C /* PhotoCellViewController.swift in Sources */,
 				1463DA5928540D7700A86DC4 /* dataController.swift in Sources */,
 				146E63E028503346000FCE92 /* MapViewController.swift in Sources */,

@@ -10,67 +10,80 @@ import CoreLocation
 import UIKit
 
 class FlickrClient {
-    static let Key = "086bb4e9237031ab922da8ffe54feb5f"
     
-    enum endPoints {
-        static let base = "https://www.flickr.com/services/rest/?method=flickr.photos.search"
-        static let apikey = "&api_key=" + Key
+    static let shared = FlickrClient()
+
+private var flickrPhotosDict: [CLLocationCoordinate2D: ([FlickrReponse], page: Int)] = [:]
+    
+
+
+/// Retrieves flickr photos for the specified coordinates.
+func getFlickrPhotos(
+    coordinate: CLLocationCoordinate2D,
+    page: Int,
+    completion: @escaping (Result<FlickrPhotosData, Error>) -> Void
+) -> URLSessionDataTask {
+
+    var endpoint = URLComponents()
+    endpoint.scheme = "https"
+    endpoint.host = "www.flickr.com"
+    endpoint.path = "/services/rest/"
+    endpoint.queryItems = [
+        .init(name: "method", value: "flickr.photos.search"),
+        .init(name: "api_key", value: "086bb4e9237031ab922da8ffe54feb5f"),
+        .init(name: "lat", value: "\(coordinate.latitude)"),
+        .init(name: "lon", value: "\(coordinate.longitude)"),
+        .init(name: "per_page", value: "30"),
+        .init(name: "page", value: "\(page)"),
+        .init(name: "format", value: "json"),
+        .init(name: "nojsoncallback", value: "1")
+    ]
+
+    // debugPrint("getFlickrPhotos url:", endpoint.url!)
+    
+    let task = URLSession.shared.dataTask(with: endpoint.url!) {
+        data, urlResponse, error in
         
-        case fetchImages(Double, Double)
+        guard let data = data else {
+            
+            completion(.failure(error ?? NSError()))
+            return
+        }
+        let stringData = String(data: data, encoding: .utf8)!
         
-        var stringValue : String {
-            switch self {
-            case .fetchImages(let lat, let long): return endPoints.base + endPoints.apikey + "&lat=\(lat)" + "&lon=\(long)" + "&format=json&nojsoncallback=1&extras=url_m"
-            }
-        }
-        var url: URL {
-            return URL(string: stringValue)!
-        }
-    }
-    
-    func fetchResults (forCoordinate coordinate : CLLocationCoordinate2D, completion : @escaping (Result<[Photograph], Error>) -> Void ) {
-        let url = endPoints.fetchImages(coordinate.latitude, coordinate.longitude).url
-        let task = URLSession.shared.dataTask(with: url) {data, response, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-            }
-            guard let data = data else {
-                return
-            }
-            let decoder = JSONDecoder()
-            do{
-                let result = try decoder.decode(FlickrReponse.self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(result.photos.photo))
-                }
-            }catch {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-            }
-        }
-        task.resume()
-    }
-    
-    func downloadImage (forPhotograph photograph : Photograph, completion : @escaping (Result<UIImage, Error>) -> Void ) {
-        let serverId = photograph.server
-        let id = photograph.id
-        let secret = photograph.secret
-        let urlString = "https://live.staticflickr.com/\(serverId)/\(id)_\(secret).jpg"
-        guard let url = URL(string: urlString) else {return}
         do {
-            let data = try Data(contentsOf: url)
-            guard let image = UIImage(data: data) else { return }
-            DispatchQueue.main.async {
-                completion(.success(image))
+            
+            // print(stringData)
+            
+            let photosArray = try JSONDecoder().decode(
+                FlickrPhotosData.self, from: data
+            )
+            print("getFlickrPhotos: retrieved \(photosArray.photos.count) photos")         
+            if let previousPhotos = self.flickrPhotosDict[coordinate] {
+                if previousPhotos.page != page {
+                    for photo in previousPhotos.0 {
+                        if photosArray.photos.contains(photo) {
+                            print(
+                                "\n\nflickr api returned duplicate photos for different pages\n\n"
+                            )
+                            
+                        }
+                    }
+                }
             }
-        }catch {
-            DispatchQueue.main.async {
-                completion(.failure(error))
-            }
+            var current = self.flickrPhotosDict[coordinate] ?? ([], page: page)
+            current.0.append(contentsOf: photosArray.photos)
+            self.flickrPhotosDict[coordinate] = current
+            completion(.success(photosArray))
+            
+        } catch {
+            print("\n" + stringData + "\n")
+            completion(.failure(error))
         }
-        
+    }
+    
+    task.resume()
+    return task
+    
     }
 }
