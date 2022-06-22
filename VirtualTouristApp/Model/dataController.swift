@@ -9,51 +9,62 @@ import Foundation
 import CoreData
 
 class dataController {
-
-    static let shared = dataController()
-    let persistenceContainer:NSPersistentContainer
-    var viewContext:NSManagedObjectContext {
-        return persistenceContainer.viewContext
-    }
     
+    // MARK: - Properties
+    static let shared = dataController(modelName: "VirtualTouristApp")
+    
+    private let persistentContainer: NSPersistentContainer!
     var backgroundContext: NSManagedObjectContext!
-    init() {
-        persistenceContainer = NSPersistentContainer(name: "VirtualTouristApp")
-        backgroundContext = persistenceContainer.newBackgroundContext()
+    var viewContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
     }
     
-    func configureContexts() {
-        viewContext.automaticallyMergesChangesFromParent = true
-        backgroundContext.automaticallyMergesChangesFromParent = true
-        
-        backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-        viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
+    
+    // MARK: - Initialization
+    
+    init(modelName: String) {
+        persistentContainer = NSPersistentContainer(name: modelName)
+        backgroundContext = persistentContainer.newBackgroundContext()
     }
+    
+    
+    
+    // MARK: - Config & Helper Functions
     
     func load(completion: (() -> Void)? = nil) {
-        persistenceContainer.loadPersistentStores { (storeDescription, error) in
-            guard error == nil else {
-                fatalError(error!.localizedDescription)
+        persistentContainer.loadPersistentStores { (description, error) in
+            if let error = error {
+                fatalError("Error in loading Persistent Stores : \(error.localizedDescription)")
             }
+            
+            self.setupContexts()
             self.autoSaveViewContext()
-            self.configureContexts()
             completion?()
         }
     }
-}
-
-extension dataController {
-    func autoSaveViewContext(interval:TimeInterval = 30) {
-        print("autosaving")
-        guard interval > 0 else {
-            print("cannot set negative autosave interval")
-            return
-        }
+    
+    private func setupContexts() {
+        viewContext.automaticallyMergesChangesFromParent = true
+        backgroundContext.automaticallyMergesChangesFromParent = true
+        
+        viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
+        backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+    }
+    
+    func saveContext() {
         if viewContext.hasChanges {
             try? viewContext.save()
         }
+    }
+    
+    private func autoSaveViewContext(interval: TimeInterval = 5) {
+        guard interval > 0 else { return }
+        
+        saveContext()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
             self.autoSaveViewContext(interval: interval)
         }
     }
+    
 }

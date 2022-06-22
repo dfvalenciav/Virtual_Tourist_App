@@ -19,7 +19,8 @@ class PhotoViewController : UIViewController {
     // MARK: - Properties
     var coordinate: CLLocationCoordinate2D?
     var images = [UIImage]()
-    var pin: Pin? = nil
+    var pin : Pin!
+    var dataController: dataController!
    
     // MARK: - IBOutlets
     @IBOutlet weak var newCollectionButton: UIButton!
@@ -34,10 +35,10 @@ class PhotoViewController : UIViewController {
     var totalFlickrPhotosPages = 0
     var retreivePhotoDataTask: URLSessionDataTask? = nil
     var loadPhotosTasks: [URLSessionDataTask] = []
-    var fetchedResultsController: NSFetchedResultsController<Photo>? = nil
+    var fetchedResultsController: NSFetchedResultsController<Photo>!
     var collectionViewCells: [PhotoCellViewController] = [] {
         didSet {
-            print(
+            debugPrint(
                 "didSet collectionViewCells:\n" +
                 "old count: \(oldValue.count), " +
                 "new count: \(collectionViewCells.count)"
@@ -61,7 +62,6 @@ class PhotoViewController : UIViewController {
         
         collectionViewCells = []
         collectionView.reloadData()
-        
         retreivePhotoDataTask?.cancel()
         retreivePhotoDataTask = nil
         for task in loadPhotosTasks {
@@ -80,9 +80,15 @@ class PhotoViewController : UIViewController {
         
         activityIndicator.startAnimating()
         isDownloadingImages = true
+        let photos = fetchedResultsController?.fetchedObjects
+        for photo in photos!{
+            managedObjectContext.delete(photo)
+        }
         retrievePhotoDataFromFlickr(page: newPage)
+        saveContext()
         
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,7 +99,6 @@ class PhotoViewController : UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         print("view will disappear")
-        saveContext()
     }
     
     func displayNoImagesLabel() {
@@ -292,6 +297,7 @@ class PhotoViewController : UIViewController {
                     print("loadPhotos: error retreiving flickr photo:\n\(error)")
                 }
             }
+            saveContext()
             loadPhotosTasks.append(task)
             collectionViewCells.append(cell)
             collectionView.reloadData()
