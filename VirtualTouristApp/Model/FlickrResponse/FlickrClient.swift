@@ -11,79 +11,76 @@ import UIKit
 
 class FlickrClient {
     
-    static let shared = FlickrClient()
-
-private var flickrPhotosDict: [CLLocationCoordinate2D: ([FlickrReponse], page: Int)] = [:]
+    static let apiKey = "086bb4e9237031ab922da8ffe54feb5f"
     
-
-
-/// Retrieves flickr photos for the specified coordinates.
-func getFlickrPhotos(
-    coordinate: CLLocationCoordinate2D,
-    page: Int,
-    completion: @escaping (Result<FlickrPhotosData, Error>) -> Void
-) -> URLSessionDataTask {
-
-    var endpoint = URLComponents()
-    endpoint.scheme = "https"
-    endpoint.host = "www.flickr.com"
-    endpoint.path = "/services/rest/"
-    endpoint.queryItems = [
-        .init(name: "method", value: "flickr.photos.search"),
-        .init(name: "api_key", value: "086bb4e9237031ab922da8ffe54feb5f"),
-        .init(name: "lat", value: "\(coordinate.latitude)"),
-        .init(name: "lon", value: "\(coordinate.longitude)"),
-        .init(name: "per_page", value: "30"),
-        .init(name: "page", value: "\(page)"),
-        .init(name: "format", value: "json"),
-        .init(name: "nojsoncallback", value: "1")
-    ]
-
-    // debugPrint("getFlickrPhotos url:", endpoint.url!)
-    
-    let task = URLSession.shared.dataTask(with: endpoint.url!) {
-        data, urlResponse, error in
+    enum EndPoints {
+        static let apiUrl = "https://www.flickr.com/services/rest"
+        static let imageUrl = "https://live.staticflickr.com"
         
-        guard let data = data else {
-            
-            completion(.failure(error ?? NSError()))
-            return
+        static let methodParam = "/?method=flickr.photos.search"
+        static let apiKeyParam = "&api_key=\(FlickrClient.apiKey)"
+        static let formatParam = "&per_page=30&format=json&nojsoncallback=1"
+        
+        case search(latitude: Double, longitude: Double, page: Int)
+        case downloadImage(server: String, id: String, secret: String)
+        
+        var stringValue: String {
+            switch self {
+            case .search(let lat, let lon, let page):
+                return EndPoints.apiUrl + EndPoints.methodParam + EndPoints.apiKeyParam + EndPoints.formatParam + "&lat=\(lat)&lon=\(lon)&page=\(page)"
+            case .downloadImage(let server, let id, let secret):
+                return "\(EndPoints.imageUrl)/\(server)/\(id)_\(secret)_q.jpg"
+            }
         }
-        let stringData = String(data: data, encoding: .utf8)!
         
-        do {
+        var url: URL {
+            return URL(string: self.stringValue)!
+        }
+    }
+    
+    class func getPhotosList(latitude lat: Double, longitude lon: Double, completion: @escaping ([FlickrReponse], Error?) -> Void) {
+        let page = getRandomPageNumber()
+        let task = URLSession.shared.dataTask(with: EndPoints.search(latitude: lat, longitude: lon, page: page).url) { (data, response, error) in
+            guard let data = data else { return }
             
-            // print(stringData)
-            
-            let photosArray = try JSONDecoder().decode(
-                FlickrPhotosData.self, from: data
-            )
-            print("getFlickrPhotos: retrieved \(photosArray.photos.count) photos")         
-            if let previousPhotos = self.flickrPhotosDict[coordinate] {
-                if previousPhotos.page != page {
-                    for photo in previousPhotos.0 {
-                        if photosArray.photos.contains(photo) {
-                            print(
-                                "\n\nflickr api returned duplicate photos for different pages\n\n"
-                            )
-                            
-                        }
-                    }
+            do {
+                let result = try JSONDecoder().decode(PhotosInfoResponse.self, from: data)
+                DispatchQueue.main.async {
+                    DataModel.currentPhotosInfoResponse = result
+                    completion(result.photos.photo, nil)
+                }
+            } catch {
+                print("Error in decoding photos list: \(error)")
+                DispatchQueue.main.async {
+                    completion([], error)
                 }
             }
-            var current = self.flickrPhotosDict[coordinate] ?? ([], page: page)
-            current.0.append(contentsOf: photosArray.photos)
-            self.flickrPhotosDict[coordinate] = current
-            completion(.success(photosArray))
-            
-        } catch {
-            print("\n" + stringData + "\n")
-            completion(.failure(error))
         }
+        
+        task.resume()
     }
     
-    task.resume()
-    return task
+    class func downloadPhoto(photoInfo: FlickrReponse, completion: @escaping (Data?, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: EndPoints.downloadImage(server: photoInfo.server, id: photoInfo.id, secret: photoInfo.secret).url) { (data, response, error) in
+            
+            DispatchQueue.main.async {
+                completion(data, nil)
+            }
+        }
+        
+        task.resume()
+    }
     
+    class func getRandomPageNumber() -> Int {
+        guard let totalPages = DataModel.currentPhotosInfoResponse?.photos.pages,
+              totalPages > 1
+        else {
+            return 1
+        }
+        let randomPage = Int.random(in: 1...totalPages)
+        return randomPage
     }
 }
+
+
+

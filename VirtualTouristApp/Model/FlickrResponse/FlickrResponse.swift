@@ -55,6 +55,24 @@ struct FlickrReponse: Codable, Equatable {
     }
 }
 
+struct PageMetadata: Codable {
+    let page: Int
+    let pages: Int
+    let perpage: Int
+    let total: Int
+    let photo: [FlickrReponse]
+}
+
+struct PhotosInfoResponse: Codable {
+    let photos: PageMetadata
+    let stat: String
+}
+
+struct PhotoData: Codable {
+    let info: FlickrReponse
+    var imageData: Data
+}
+
 struct FlickrPhotosData: Decodable {
     
     let photos: [FlickrReponse]

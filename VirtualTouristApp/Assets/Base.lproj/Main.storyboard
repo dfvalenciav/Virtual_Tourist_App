@@ -43,6 +43,7 @@
         <!--Photo View Controller-->
         <scene sceneID="OpQ-Km-hSq">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rZ0-k0-GRK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="PhotoViewController" id="ZRj-Le-ujv" customClass="PhotoViewController" customModule="VirtualTouristApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yGO-fn-c4L">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
@@ -152,12 +153,12 @@
                     <connections>
                         <outlet property="activityIndicator" destination="p9y-yl-bAX" id="prD-JA-ohZ"/>
                         <outlet property="collectionView" destination="Nm2-8k-H33" id="C0G-oR-m5n"/>
-                        <outlet property="fetchingLabel" destination="FCc-mw-K6y" id="vAi-Zp-WqO"/>
+                        <outlet property="flowLayout" destination="hxo-jR-8fU" id="kjq-ol-sRI"/>
                         <outlet property="mapView" destination="GUI-Lx-Eu2" id="gVU-UD-g5p"/>
-                        <outlet property="newCollectionButton" destination="x0M-eW-SnH" id="rBL-qR-vQT"/>
+                        <outlet property="newCollectionButton" destination="x0M-eW-SnH" id="weF-ai-s3L"/>
+                        <outlet property="noPhotosFoundLabel" destination="FCc-mw-K6y" id="KXv-hU-QVy"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rZ0-k0-GRK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1406" y="96"/>
         </scene>

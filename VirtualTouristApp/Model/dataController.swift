@@ -8,10 +8,13 @@
 import Foundation
 import CoreData
 
+import Foundation
+import CoreData
+
 class dataController {
     
     // MARK: - Properties
-    static let shared = dataController(modelName: "VirtualTouristApp")
+    let shared = dataController(modelName: "VirtualTouristApp")
     
     private let persistentContainer: NSPersistentContainer!
     var backgroundContext: NSManagedObjectContext!
@@ -68,3 +71,4 @@ class dataController {
     }
     
 }
+

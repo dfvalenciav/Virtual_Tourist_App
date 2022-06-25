@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14139DCD2863E59200A1B403 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14139DCC2863E59200A1B403 /* DataModel.swift */; };
 		1419D25228562B6200B9CA0C /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1419D25128562B6200B9CA0C /* PhotoViewController.swift */; };
 		1419D25428562E1000B9CA0C /* PhotoCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1419D25328562E1000B9CA0C /* PhotoCellViewController.swift */; };
 		1419D25A28563C5300B9CA0C /* FlickrClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1419D25928563C5300B9CA0C /* FlickrClient.swift */; };
 		1419D25C28563C7300B9CA0C /* FlickrResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1419D25B28563C7300B9CA0C /* FlickrResponse.swift */; };
+		1442663B28673D5F00EE98B7 /* MapViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1442663A28673D5F00EE98B7 /* MapViewExtension.swift */; };
 		1463DA572853AE3C00A86DC4 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1463DA562853AE3C00A86DC4 /* UIViewController.swift */; };
 		1463DA5928540D7700A86DC4 /* dataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1463DA5828540D7700A86DC4 /* dataController.swift */; };
 		146CE7482860CA5200789A1A /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146CE7472860CA5200789A1A /* Pin.swift */; };
@@ -27,10 +29,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		14139DCC2863E59200A1B403 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		1419D25128562B6200B9CA0C /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		1419D25328562E1000B9CA0C /* PhotoCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellViewController.swift; sourceTree = "<group>"; };
 		1419D25928563C5300B9CA0C /* FlickrClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrClient.swift; sourceTree = "<group>"; };
 		1419D25B28563C7300B9CA0C /* FlickrResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrResponse.swift; sourceTree = "<group>"; };
+		1442663A28673D5F00EE98B7 /* MapViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewExtension.swift; sourceTree = "<group>"; };
 		1463DA562853AE3C00A86DC4 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		1463DA5828540D7700A86DC4 /* dataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataController.swift; sourceTree = "<group>"; };
 		146CE7472860CA5200789A1A /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
@@ -65,6 +69,7 @@
 				1419D25928563C5300B9CA0C /* FlickrClient.swift */,
 				1419D25B28563C7300B9CA0C /* FlickrResponse.swift */,
 				146CE74B2860D8AE00789A1A /* MkCoordinateLocation.swift */,
+				14139DCC2863E59200A1B403 /* DataModel.swift */,
 			);
 			path = FlickrResponse;
 			sourceTree = "<group>";
@@ -124,6 +129,7 @@
 			children = (
 				1463DA562853AE3C00A86DC4 /* UIViewController.swift */,
 				1419D25328562E1000B9CA0C /* PhotoCellViewController.swift */,
+				1442663A28673D5F00EE98B7 /* MapViewExtension.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -220,6 +226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1442663B28673D5F00EE98B7 /* MapViewExtension.swift in Sources */,
 				146CE74A2860CB5700789A1A /* Photo.swift in Sources */,
 				146E63E628503346000FCE92 /* VirtualTouristApp.xcdatamodeld in Sources */,
 				146CE7482860CA5200789A1A /* Pin.swift in Sources */,
@@ -227,6 +234,7 @@
 				1419D25428562E1000B9CA0C /* PhotoCellViewController.swift in Sources */,
 				1463DA5928540D7700A86DC4 /* dataController.swift in Sources */,
 				146E63E028503346000FCE92 /* MapViewController.swift in Sources */,
+				14139DCD2863E59200A1B403 /* DataModel.swift in Sources */,
 				146E63DC28503346000FCE92 /* AppDelegate.swift in Sources */,
 				1419D25228562B6200B9CA0C /* PhotoViewController.swift in Sources */,
 				146E63DE28503346000FCE92 /* SceneDelegate.swift in Sources */,
