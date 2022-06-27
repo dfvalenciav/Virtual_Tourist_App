@@ -15,7 +15,7 @@ class MapViewController:UIViewController {
     // MARK: - Properties
     
     @IBOutlet weak var mapView: MKMapView!
-    var dataController: dataController!
+    var dataController : DataController = (UIApplication.shared.delegate as! AppDelegate).dataController
     var longGestureRecognizer: UILongPressGestureRecognizer!
     private var selectedLocation: CLLocation?
     private var selectedPin: Pin!
@@ -86,7 +86,7 @@ class MapViewController:UIViewController {
     // MARK: - Segue
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToPhotoAlbum",
+        if segue.identifier == "mapToCollection",
            let viewController = segue.destination as? PhotoViewController,
            let selectedLocation = self.selectedLocation {
             viewController.dataController = dataController
@@ -115,7 +115,7 @@ extension MapViewController: MKMapViewDelegate {
         
         self.selectedLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         
-        self.performSegue(withIdentifier: "goToPhotoAlbum", sender: nil)
+        self.performSegue(withIdentifier: "mapToCollection", sender: nil)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -138,7 +138,7 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
         let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.shared.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         
         do {

@@ -43,7 +43,6 @@
         <!--Photo View Controller-->
         <scene sceneID="OpQ-Km-hSq">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rZ0-k0-GRK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="PhotoViewController" id="ZRj-Le-ujv" customClass="PhotoViewController" customModule="VirtualTouristApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yGO-fn-c4L">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
@@ -112,7 +111,7 @@
                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="20"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="newCollectionButtonTapped:" destination="ZRj-Le-ujv" eventType="touchUpInside" id="Jb1-77-edh"/>
+                                    <action selector="newCollectionButtonPressed:" destination="ZRj-Le-ujv" eventType="touchUpInside" id="6en-tT-EvN"/>
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="p9y-yl-bAX">
@@ -159,6 +158,7 @@
                         <outlet property="noPhotosFoundLabel" destination="FCc-mw-K6y" id="KXv-hU-QVy"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rZ0-k0-GRK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1406" y="96"/>
         </scene>

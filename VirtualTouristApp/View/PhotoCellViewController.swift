@@ -13,7 +13,7 @@ class PhotoCellViewController: UICollectionViewCell {
     @IBOutlet weak var imageCell: UIImageView!
     @IBOutlet weak var activityIndicatorCell: UIActivityIndicatorView!
     
-    var dataController: dataController!
+    var dataController: DataController!
     var id: UUID? = nil
     
     func configure() {

@@ -30,7 +30,7 @@ class PhotoViewController : UIViewController{
     
     var pin: Pin!
     var selectedLocation: CLLocation!
-    var dataController: dataController!
+    var dataController : DataController = (UIApplication.shared.delegate as! AppDelegate).dataController
     
     private var shouldDownload = true
     private var photosInfo = [FlickrReponse]()
